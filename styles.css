@@ -87,6 +87,18 @@ h1 {
     margin: 0 auto;
 }
 
+
+/* Section Titles */
+.section-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    color: var(--accent-gold);
+    margin: 2rem 0 1rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    display: inline-block;
+}
+
 /* Grid */
 .project-grid {
     display: grid;
