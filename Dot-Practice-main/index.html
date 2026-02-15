@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dot Meditation</title>
+    <meta name="description"
+        content="A digital focus training environment built on ancient meditation principles. Progress from a single dot to complex geometric forms.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@300&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- Theme Toggle: cycles Dark → Light → Ink -->
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+            <!-- Moon = Dark mode active -->
+            <svg class="theme-icon icon-dark active" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <!-- Sun = Light mode active -->
+            <svg class="theme-icon icon-light" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+            <!-- Pen = Ink mode active -->
+            <svg class="theme-icon icon-ink" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+                <path d="M2 2l7.586 7.586"></path>
+                <circle cx="11" cy="11" r="2"></circle>
+            </svg>
+        </button>
+        <!-- Theme label (shows briefly on toggle) -->
+        <div class="theme-label" id="theme-label">DARK</div>
+
+        <!-- View: Splash / Intro -->
+        <section id="view-intro" class="view active">
+            <div class="ambient-particles" id="intro-particles"></div>
+            <div class="center-content text-left intro-manifesto">
+                <div class="breathing-circle"></div>
+                <div class="breathing-circle"></div>
+
+                <h1 class="fade-in">DOT MEDITATION</h1>
+                <h2 class="fade-in delay-1" style="font-size: 1rem; margin-top: 0.5rem; opacity: 0.7;">Building
+                    Attention Capacity</h2>
+
+                <div class="philosophy-text fade-in delay-2">
+                    <p>In an age of perpetual distraction, this practice serves as a powerful anchor — systematically
+                        simplifying focus to a single point, then expanding it through increasingly complex geometric
+                        forms.</p>
+                    <p>Where the eyes are, the mind is. Command the eyes to remain fixed on a single, unmoving object,
+                        and the scattered mind will follow into unwavering presence.</p>
+                </div>
+
+                <button id="btn-enter" class="btn-ghost fade-in delay-3">ENTER TRAINING</button>
+
+                <div class="credit-footer fade-in delay-3" style="margin-top: 4rem;">
+                    Source: <a href="https://templeofzeus.org/Dot_Meditation.php" target="_blank"
+                        class="credit-link">Temple of Zeus</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Dashboard -->
+        <section id="view-dashboard" class="view hidden">
+            <div class="ambient-particles" id="dashboard-particles"></div>
+            <header class="dashboard-header">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <span class="stat-label">TOTAL TIME</span>
+                        <span class="stat-value" id="total-time-display">00h 00m</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">STREAK</span>
+                        <span class="stat-value streak-display" id="streak-display">
+                            <span class="streak-fire">🔥</span>
+                            <span id="streak-count">0</span>
+                        </span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">SESSIONS</span>
+                        <span class="stat-value" id="total-sessions-display">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">LAST SESSION</span>
+                        <span class="stat-value" id="last-session-display">--</span>
+                    </div>
+                </div>
+                <div class="data-actions">
+                    <button id="btn-export" class="btn-ghost btn-small">EXPORT DATA</button>
+                    <button id="btn-import" class="btn-ghost btn-small">IMPORT DATA</button>
+                    <button id="btn-reset" class="btn-ghost btn-small"
+                        style="color: #ff4444; border-color: #ff4444;">RESET DATA</button>
+                    <input type="file" id="import-input" accept=".json" style="display: none;">
+                </div>
+            </header>
+
+            <div class="levels-grid">
+                <!-- Level 1 -->
+                <div class="level-card" data-level="1">
+                    <span class="level-number-tag">LEVEL 1</span>
+                    <button class="btn-card-info" data-level="1" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-dot">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="1" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>THE DOT</h3>
+                        <p class="level-time" data-time="1">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="1"></p>
+                        <p class="level-goal-status hidden" data-goal-status="1"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="1">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="1"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="1">0h / 10h</span><span
+                                data-ppct="1">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="1">-</button>
+                        <button class="btn-adjust btn-custom" data-level="1">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="1">+</button>
+                    </div>
+                </div>
+
+                <!-- Level 2 -->
+                <div class="level-card" data-level="2">
+                    <span class="level-number-tag">LEVEL 2</span>
+                    <button class="btn-card-info" data-level="2" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-circle">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="2" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>THE CIRCLE</h3>
+                        <p class="level-time" data-time="2">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="2"></p>
+                        <p class="level-goal-status hidden" data-goal-status="2"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="2">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="2"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="2">0h / 10h</span><span
+                                data-ppct="2">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="2">-</button>
+                        <button class="btn-adjust btn-custom" data-level="2">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="2">+</button>
+                    </div>
+                </div>
+
+                <!-- Level 3 -->
+                <div class="level-card" data-level="3">
+                    <span class="level-number-tag">LEVEL 3</span>
+                    <button class="btn-card-info" data-level="3" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-square">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="3" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>THE SQUARE</h3>
+                        <p class="level-time" data-time="3">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="3"></p>
+                        <p class="level-goal-status hidden" data-goal-status="3"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="3">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="3"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="3">0h / 10h</span><span
+                                data-ppct="3">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="3">-</button>
+                        <button class="btn-adjust btn-custom" data-level="3">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="3">+</button>
+                    </div>
+                </div>
+
+                <!-- Level 4 -->
+                <div class="level-card" data-level="4">
+                    <span class="level-number-tag">LEVEL 4</span>
+                    <button class="btn-card-info" data-level="4" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-triangle">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="4" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>THE TRIANGLE</h3>
+                        <p class="level-time" data-time="4">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="4"></p>
+                        <p class="level-goal-status hidden" data-goal-status="4"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="4">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="4"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="4">0h / 10h</span><span
+                                data-ppct="4">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="4">-</button>
+                        <button class="btn-adjust btn-custom" data-level="4">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="4">+</button>
+                    </div>
+                </div>
+
+                <!-- Level 5 -->
+                <div class="level-card" data-level="5">
+                    <span class="level-number-tag">LEVEL 5</span>
+                    <button class="btn-card-info" data-level="5" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-sigil">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="5" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>THE SIGIL</h3>
+                        <p class="level-time" data-time="5">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="5"></p>
+                        <p class="level-goal-status hidden" data-goal-status="5"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="5">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="5"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="5">0h / 10h</span><span
+                                data-ppct="5">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="5">-</button>
+                        <button class="btn-adjust btn-custom" data-level="5">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="5">+</button>
+                    </div>
+                </div>
+
+                <!-- Level 6 -->
+                <div class="level-card" data-level="6">
+                    <span class="level-number-tag">LEVEL 6</span>
+                    <button class="btn-card-info" data-level="6" title="Goal Settings">ⓘ</button>
+                    <div class="level-icon level-custom">
+                        <div class="progress-ring-wrap">
+                            <svg viewBox="0 0 76 76">
+                                <circle class="progress-ring-track" cx="38" cy="38" r="35" />
+                                <circle class="progress-ring-value" cx="38" cy="38" r="35" data-ring="6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="level-info">
+                        <h3>CUSTOM</h3>
+                        <p class="level-time" data-time="6">Sessions: 0 | Total: 0m</p>
+                        <p class="last-practiced hidden" data-last="6"></p>
+                        <p class="level-goal-status hidden" data-goal-status="6"></p>
+                    </div>
+                    <div class="card-progress-wrap hidden" data-progress="6">
+                        <div class="card-progress-bar">
+                            <div class="card-progress-fill" data-fill="6"></div>
+                        </div>
+                        <div class="card-progress-label"><span data-plabel="6">0h / 10h</span><span
+                                data-ppct="6">0%</span></div>
+                    </div>
+                    <div class="manual-adjust">
+                        <button class="btn-adjust btn-minus" data-level="6">-</button>
+                        <button class="btn-adjust btn-custom" data-level="6">✎</button>
+                        <button class="btn-adjust btn-plus" data-level="6">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Session Logs Section -->
+            <div class="sessions-log-container">
+                <h3 class="log-header">SESSION LOGS</h3>
+                <div id="log-list" class="log-list">
+                    <div class="log-empty">
+                        <div class="log-empty-icon">◎</div>
+                        <p>No sessions recorded yet. Select a level to begin.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="credit-footer" style="margin: 4rem auto; text-align: center;">
+                Guidance by <a href="https://templeofzeus.org/Dot_Meditation.php" target="_blank"
+                    class="credit-link">Temple of Zeus</a>
+            </div>
+        </section>
+
+        <!-- View: Pre-Practice Instructions -->
+        <section id="view-instruction" class="view hidden">
+            <div class="center-content text-left">
+                <h2 id="instruction-title">LEVEL I</h2>
+                <div class="instruction-text">
+                    <p id="instruction-p1"></p>
+                    <p id="instruction-p2"></p>
+                    <p id="instruction-p3"></p>
+
+                    <div id="mastery-info" class="mastery-note hidden">
+                        <h4>ON MASTERY</h4>
+                        <p>You will experience unwavering attention, without effort, an empty mind and you will be very
+                            easy to maintain attention. You will not experience disarray, wanting to "get up and do
+                            something" or mental distractions. You have reached maximum level in this when borderline
+                            zero resistance occurs from your mind.</p>
+                    </div>
+
+                    <p class="warning" style="margin-top: 2rem;">DURATION: <span id="instruction-duration">2
+                            MINUTES</span></p>
+                    <p class="warning-sub">TAP SCREEN OR PRESS SPACE TO PAUSE.</p>
+
+                    <!-- Session Goal Settings -->
+                    <div id="session-goal-settings" class="session-goal-settings">
+                        <div class="goal-toggle-row">
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="session-goal-enabled">
+                                <span class="toggle-slider"></span>
+                            </label>
+                            <span class="goal-toggle-label">Notify me when goal is reached</span>
+                        </div>
+                        <div id="session-goal-input-wrap" class="session-goal-input-wrap hidden">
+                            <input type="number" id="session-goal-minutes" min="1" max="120" value="5">
+                            <span class="input-unit">MIN</span>
+                        </div>
+                    </div>
+
+                    <!-- Level 5 Specific Upload -->
+                    <div id="sigil-upload-view" class="sigil-upload-container hidden">
+                        <p>A practice of yours requires a sigil.</p>
+                        <img id="sigil-preview" class="sigil-preview-mini">
+                        <label for="sigil-input" class="file-label">SELECT SIGIL IMAGE</label>
+                        <input type="file" id="sigil-input" accept="image/*">
+                    </div>
+
+                    <!-- Level 6 Custom Configuration -->
+                    <div id="custom-config-view" class="custom-config-container hidden">
+                        <h4 class="config-header">SHAPE CONFIGURATION</h4>
+
+                        <div class="config-section">
+                            <p class="config-label">SELECT FORM</p>
+                            <div class="shape-grid" id="shape-picker-grid">
+                                <!-- Shapes injected via JS -->
+                            </div>
+                        </div>
+
+                        <div class="config-section">
+                            <p class="config-label">ANIMATIONS</p>
+                            <div class="anim-toggles">
+                                <label class="anim-check">
+                                    <input type="checkbox" id="anim-blink">
+                                    <span class="anim-box"></span>
+                                    <span class="anim-label">BLINK</span>
+                                </label>
+                                <label class="anim-check">
+                                    <input type="checkbox" id="anim-bounce">
+                                    <span class="anim-box"></span>
+                                    <span class="anim-label">BOUNCE</span>
+                                </label>
+                                <label class="anim-check">
+                                    <input type="checkbox" id="anim-rotate">
+                                    <span class="anim-box"></span>
+                                    <span class="anim-label">ROTATE</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="btn-begin-practice" class="btn-solid">BEGIN PRACTICE</button>
+                <button id="btn-back-dashboard" class="btn-red">RETURN</button>
+
+                <div class="credit-footer" style="margin-top: 3rem;">
+                    Origin: <a href="https://templeofzeus.org/Dot_Meditation.php" target="_blank"
+                        class="credit-link">Temple of Zeus</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Active Practice -->
+        <section id="view-practice" class="view hidden">
+            <div id="practice-stage">
+                <div id="shape-container"></div>
+            </div>
+            <div class="elapsed-timer" id="elapsed-timer">00:00</div>
+
+            <!-- Pause Overlay -->
+            <div id="exit-overlay" class="overlay hidden">
+                <div class="modal">
+                    <h3>PAUSE PRACTICE</h3>
+                    <p>Have you finished your session or did you lose focus?</p>
+                    <div class="modal-actions">
+                        <button id="btn-resume" class="btn-solid">RESUME</button>
+                        <button id="btn-finish" class="btn-ghost">FINISH & RECORD</button>
+                        <button id="btn-abort" class="btn-danger">ABORT (DISCARD)</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View: Debrief -->
+        <section id="view-debrief" class="view hidden">
+            <div class="center-content">
+                <h2>SESSION COMPLETE</h2>
+
+                <div class="session-summary">
+                    <div class="summary-row">
+                        <span class="summary-label">SESSION TIME</span>
+                        <span class="summary-value" id="session-time-val">00:00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">CUMULATIVE (LEVEL)</span>
+                        <span class="summary-value" id="cumulative-time-val">00m</span>
+                    </div>
+                </div>
+
+                <p class="debrief-motivation" id="debrief-motivation"></p>
+                <p class="debrief-streak" id="debrief-streak"></p>
+
+                <div id="mastery-check" class="hidden">
+                    <div class="mastery-prompt">
+                        <p>Have you stabilized your attention?</p>
+                        <p class="sub-prompt">Answer truthfully. Progress depends on honesty.</p>
+                        <button id="btn-claim-mastery" class="btn-gold">I HAVE MASTERED THIS FORM</button>
+                        <button id="btn-continue-training" class="btn-ghost">CONTINUE TRAINING</button>
+                    </div>
+                </div>
+
+                <div id="normal-debrief">
+                    <button id="btn-return-home" class="btn-red">RETURN</button>
+                </div>
+
+                <div class="credit-footer" style="margin-top: 4rem; text-align: center;">
+                    Training by <a href="https://templeofzeus.org/Dot_Meditation.php" target="_blank"
+                        class="credit-link">Temple of Zeus</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Custom Time Modal -->
+        <div id="custom-time-overlay" class="overlay hidden">
+            <div class="modal">
+                <h3>ADJUST TIME</h3>
+                <p class="subtitle">Enter minutes to add or subtract</p>
+                <div class="custom-input-wrap">
+                    <input type="number" id="custom-minutes-input" placeholder="10" autofocus>
+                    <span class="input-unit">MIN</span>
+                </div>
+                <div class="modal-actions">
+                    <button id="btn-custom-confirm" class="btn-solid">CONFIRM</button>
+                    <button id="btn-custom-cancel" class="btn-ghost">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Level Goal Settings Modal -->
+        <div id="level-goal-overlay" class="overlay hidden">
+            <div class="modal goal-modal level-settings-modal">
+                <h3 id="level-goal-title">LEVEL SETTINGS</h3>
+
+                <!-- Per-Level Practice Goal Section -->
+                <div class="settings-section">
+                    <h4 class="section-title">PRACTICE GOAL</h4>
+                    <p class="section-desc">Total practice time target for this level</p>
+                    <div class="goal-toggle-row">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="level-practice-goal-enabled">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="goal-toggle-label">Enable practice goal</span>
+                    </div>
+                    <div id="level-practice-goal-inputs" class="time-input-group">
+                        <div class="time-input-item">
+                            <input type="number" id="level-practice-goal-hours" min="0" max="999" value="0">
+                            <span class="input-unit">HOURS</span>
+                        </div>
+                        <div class="time-input-item">
+                            <input type="number" id="level-practice-goal-minutes" min="0" max="59" value="0">
+                            <span class="input-unit">MIN</span>
+                        </div>
+                    </div>
+                    <div id="level-practice-progress" class="level-practice-progress">
+                        <div class="progress-text">Progress: <span id="level-practice-current">0h 0m</span> / <span
+                                id="level-practice-target">0h 0m</span></div>
+                        <div class="goal-progress-bar">
+                            <div class="goal-progress-fill" id="level-practice-progress-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session Goal Section -->
+                <div class="settings-section">
+                    <h4 class="section-title">SESSION GOAL</h4>
+                    <p class="section-desc">Alert when this time is reached during practice</p>
+                    <div class="goal-toggle-row">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="level-session-goal-enabled">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span class="goal-toggle-label">Notify when goal reached</span>
+                    </div>
+                    <div id="level-session-goal-input" class="time-input-group single">
+                        <div class="time-input-item">
+                            <input type="number" id="level-session-goal-minutes" min="1" max="120" value="5">
+                            <span class="input-unit">MIN</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manual Time Adjustment Section -->
+                <div class="settings-section">
+                    <h4 class="section-title">ADJUST RECORDED TIME</h4>
+                    <p class="section-desc">Add or subtract time from this level's total</p>
+                    <div class="time-adjust-controls">
+                        <div class="time-input-group">
+                            <div class="time-input-item">
+                                <input type="number" id="level-adjust-hours" min="0" max="999" value="0">
+                                <span class="input-unit">HOURS</span>
+                            </div>
+                            <div class="time-input-item">
+                                <input type="number" id="level-adjust-minutes" min="0" max="59" value="0">
+                                <span class="input-unit">MIN</span>
+                            </div>
+                        </div>
+                        <div class="adjust-buttons">
+                            <button id="btn-level-add-time" class="btn-adjust-action btn-add">+ ADD</button>
+                            <button id="btn-level-subtract-time" class="btn-adjust-action btn-subtract">−
+                                SUBTRACT</button>
+                        </div>
+                        <p class="current-total">Current Total: <span id="level-current-total">0h 0m</span></p>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button id="btn-level-goal-save" class="btn-solid">SAVE SETTINGS</button>
+                    <button id="btn-level-goal-cancel" class="btn-ghost">CANCEL</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Goal Reached Celebration Overlay -->
+        <div id="goal-reached-overlay" class="overlay hidden">
+            <div class="modal celebration-modal">
+                <div class="celebration-icon">🎯</div>
+                <h2>GOAL REACHED!</h2>
+                <p>You've hit your session target.</p>
+                <p class="celebration-sub">Continue or finish and record your session.</p>
+                <div class="modal-actions">
+                    <button id="btn-goal-continue" class="btn-solid">CONTINUE PRACTICE</button>
+                    <button id="btn-goal-finish" class="btn-gold">FINISH & RECORD</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

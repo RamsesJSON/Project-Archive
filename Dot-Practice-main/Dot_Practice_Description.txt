@@ -1,0 +1,40 @@
+DOT MEDITATION
+==============
+
+"An age of perpetual distraction, it serves as a powerful anchor, systematically simplifying focus to a single point and then expanding it through increasingly complex geometric forms.
+
+This meditation directly confronts the modern deficit of attention by retraining the mind through the absolute discipline of the gaze.
+
+Before meditating on any sigils, preliminary training of ATTENTION is necessary. This attention then evolves into awareness.
+
+The practice is built on the principle that where the eyes are, the mind is; by commanding the eyes to remain fixed on a single, unmoving object, you force the scattered mind to follow, compelling it into a state of unwavering presence.
+
+This is not a gentle exercise but a decisive tool for reclaiming cognitive sovereignty, forging the mind into a sharp, singular instrument capable of piercing through the noise and unlocking the power of undivided attention."
+
+Original Meditation: https://templeofzeus.org/Dot_Meditation.php
+
+ABOUT THE APP
+-------------
+Dot Meditation is a digital training environment based on these principles. It provides a structured, progressive path to building your attention capacity.
+
+HOW IT WORKS
+------------
+The application guides you through six levels of focus. You begin with the simplest possible form—a single dot—and progress to complex patterns and dynamic shapes that challenge your focus.
+
+THE LEVELS
+----------
+1. THE DOT: The foundation. Learn to return your mind to a single point of focus.
+2. THE CIRCLE: Adding structure. Maintain attention on a central point within a circular boundary.
+3. THE SQUARE: Building stability. Focus on the core within a solid geometric frame.
+4. THE TRIANGLE: Sharpness. Refine your concentration within a three-sided form.
+5. SIGIL PRACTICE: High-level stability. Focus on complex patterns (Sigils) to stabilize your attention across intricate details.
+6. CUSTOM LOUNGE: The ultimate challenge. Choose from over 10 different shapes and apply dynamic animations—like blinking, bouncing, or rotating—to train your focus remains steady even when the world around your focal point is in motion.
+
+KEY FEATURES
+------------
+*   PROGRESS TRACKING: See your total practice time at a glance and track your history across every level.
+*   CUSTOM GOALS: Set personal practice targets for each level (e.g., "I want to reach 10 hours on the Square").
+*   SESSION ALERTS: Set a target duration for your current session, and the app will notify you when you've reached your goal.
+*   MANUAL LOGGING: Precision controls to Add or Subtract time (Hours/Minutes) directly in the settings, keeping your records accurate.
+*   IMMERSIVE ENVIRONMENT: Deep-focus, fullscreen practice with minimal distractions.
+*   DATA PORTABILITY: Export or import your progress via JSON files to keep your practice history safe.

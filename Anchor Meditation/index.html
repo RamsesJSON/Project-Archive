@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anchor Meditation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Main Menu / Level Selection -->
+        <section id="menu-screen" class="screen active">
+            <header>
+                <h1>Anchor Meditation</h1>
+                <p class="subtitle">Re-inhabit your existence.</p>
+            </header>
+
+            <div class="level-grid">
+                <button class="level-card" data-level="1">
+                    <span class="level-number">01</span>
+                    <span class="level-title">The Breath</span>
+                    <span class="level-desc">Focus on the physical sensation of breathing.</span>
+                </button>
+                <button class="level-card" data-level="2">
+                    <span class="level-number">02</span>
+                    <span class="level-title">Breath & Body</span>
+                    <span class="level-desc">Anchor awareness to breath and body weight.</span>
+                </button>
+                <button class="level-card" data-level="3">
+                    <span class="level-number">03</span>
+                    <span class="level-title">Material Existence</span>
+                    <span class="level-desc">Breath, body weight, and the pulse of life.</span>
+                </button>
+            </div>
+
+            <footer>
+                <div class="credits">
+                    <p>Based on "Anchor Meditation – Layer 1" by <strong>High Priest Hooded Cobra 666</strong></p>
+                    <a href="https://templeofzeus.org/Anchor_Meditation_1.php" target="_blank"
+                        rel="noopener noreferrer">Source: Temple of Zeus</a>
+                </div>
+                <button id="stats-btn" class="icon-btn" aria-label="Statistics">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 20V10M18 20V4M6 20v-6" />
+                    </svg>
+                </button>
+            </footer>
+        </section>
+
+        <!-- Session Screen -->
+        <section id="session-screen" class="screen hidden">
+            <div class="session-content">
+                <div class="instruction-display" id="instruction-text">
+                    <!-- Dynamic Instruction text goes here -->
+                </div>
+
+                <div class="timer-display">
+                    <span id="time-remaining">05:00</span>
+                    <span id="overtime-indicator" class="hidden">+<span id="overtime-display">00:00</span></span>
+                </div>
+
+                <div class="controls">
+                    <button id="start-btn" class="control-btn">Begin</button>
+                    <button id="pause-btn" class="control-btn hidden">Pause</button>
+                    <button id="resume-btn" class="control-btn hidden">Resume</button>
+                    <button id="finish-btn" class="control-btn hidden">Finish</button>
+                </div>
+            </div>
+
+            <div class="session-settings-overlay hidden" id="settings-overlay">
+                <div class="settings-modal">
+                    <h2>Session Settings</h2>
+                    <label>
+                        Duration (minutes):
+                        <input type="number" id="duration-input" value="5" min="1" max="60">
+                    </label>
+                    <label class="toggle-label">
+                        <span>End Sound</span>
+                        <input type="checkbox" id="sound-toggle" checked>
+                        <span class="toggle-switch"></span>
+                    </label>
+                    <button id="close-settings-btn">Save</button>
+                </div>
+            </div>
+
+            <button id="exit-btn" class="icon-btn top-right" aria-label="Exit Session">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <button id="settings-btn" class="icon-btn top-left" aria-label="Settings">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+            </button>
+        </section>
+
+        <!-- Stats Overlay -->
+        <div id="stats-overlay" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Your Progress</h2>
+                <div class="stat-item">
+                    <span class="stat-label">Total Sessions</span>
+                    <span id="total-sessions" class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Total Time</span>
+                    <span id="total-time" class="stat-value">0m</span>
+                </div>
+                <button id="close-stats-btn" class="close-overlay-btn">Close</button>
+            </div>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
