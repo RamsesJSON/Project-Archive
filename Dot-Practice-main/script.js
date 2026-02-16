@@ -1431,7 +1431,7 @@ class App {
             const dot = document.createElementNS(ns, "circle");
             const c = size / 2;
             dot.setAttribute("cx", c); dot.setAttribute("cy", c);
-            dot.setAttribute("r", size * 0.02);
+            dot.setAttribute("r", size * 0.012);
             dot.setAttribute("fill", color);
             svg.appendChild(dot);
 
@@ -1455,7 +1455,7 @@ class App {
         const dot = document.createElementNS(ns, "circle");
         dot.setAttribute("cx", center);
         dot.setAttribute("cy", center);
-        dot.setAttribute("r", size * 0.02);
+        dot.setAttribute("r", size * 0.012);
         dot.setAttribute("fill", color);
 
         let form = null;
