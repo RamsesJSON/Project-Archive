@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════
-   ANCHOR MEDITATION — Application Logic
+   SELF OBSERVATION MEDITATION — Application Logic
    Sacred meditation text preserved exactly from source.
    ═══════════════════════════════════════════════ */
 
@@ -14,9 +14,9 @@ const timeDisplay = $('time-remaining');
 const overtimeIndicator = $('overtime-indicator');
 const overtimeDisplay = $('overtime-display');
 const timerRingProgress = $('timer-ring-progress');
-const breathRing = $('breath-ring');
-const breathLabel = $('breath-label');
-const breathingGuide = $('breathing-guide');
+const observerRing = $('observer-ring');
+const observerLabel = $('observer-label');
+const observerGuide = $('observer-guide');
 
 // Buttons
 const startBtn = $('start-btn');
@@ -75,61 +75,58 @@ let overtimeSeconds = 0;
 let soundEnabled = true;
 let autoAdvance = true;
 
-// Breathing state — 6-6-6 pattern (6s inhale, 6s hold, 6s exhale)
-let breathInterval = null;
-let breathPhase = 0; // 0=inhale, 1=hold, 2=exhale
-const BREATH_IN = 6000;
-const BREATH_HOLD = 6000;
-const BREATH_OUT = 6000;
-
 // Instruction state
 let currentStepIndex = 0;
 let stepAdvanceTimer = null;
 const STEP_ADVANCE_DELAY = 12000;
 
+// ── Storage key (unique to this app) ──
+const STORAGE_KEY = 'selfObsData';
+
 // ═══════════════════════════════════════════════
 // SACRED MEDITATION DATA
 // Preserved exactly from source: High Priest Hooded Cobra 666
-// https://templeofzeus.org/Anchor_Meditation_1.php
+// https://templeofzeus.org/Self_Observation_Meditation.php
 // ═══════════════════════════════════════════════
 
 const levelData = {
     1: {
-        title: "Level 1: The Breath",
-        label: "The Breath",
+        title: "Level 1: Thought Observation",
+        label: "Thought Observation",
         steps: [
-            "Sit or lie down. Close your eyes.",
-            "Focus your entire attention on the physical sensation of your breath.",
-            "Feel the air enter your nostrils, fill your lungs, and the subsequent fall of your chest.",
-            "When your mind wanders, return your focus to the physical sensation of breathing."
+            "Maintain the state of the observer. You are not DOING, you are OBSERVING.",
+            "Sit comfortably and close your eyes.",
+            "For five minutes, observe your thoughts as they arise and pass.",
+            "Do not engage, judge, or follow any thought. Watch them like clouds in the sky.",
+            "Your only task is to be the silent, impartial observer."
         ]
     },
     2: {
-        title: "Level 2: The Breath & Body",
-        label: "Breath & Body",
+        title: "Level 2: Emotional Observation",
+        label: "Emotional Observation",
         steps: [
-            "Maintain your focus on the breath.",
-            "Expand your awareness to the physical sensation of your body's weight.",
-            "Feel the pull of gravity on your form. Notice the points of pressure where your body makes contact with the surface beneath you.",
-            "Your mind is now anchored between the rhythm of your breath and the solid weight of your body."
+            "Maintain the state of the observer. You are not DOING, you are OBSERVING.",
+            "Shift your focus from thoughts to feelings.",
+            "For five minutes, observe your emotions as they arise and pass.",
+            "Do not identify with any feeling. Note its presence (anger, joy, anxiety) and let it go without attachment."
         ]
     },
     3: {
-        title: "Level 3: Your Material Existence",
-        label: "Material Existence",
+        title: "Level 3: Desire Observation",
+        label: "Desire Observation",
         steps: [
-            "Maintain your awareness of breath and body.",
-            "Now, focus your attention internally to find your heart's pulse.",
-            "Locate the subtle, rhythmic beating in your chest, your wrist, or your neck. The more you meditate on this, the sensation will increase.",
-            "Your entire focus is now held by three points: the rhythm of your breath, the existence of your body, and the beat of your own life. Do not waver attention."
+            "Maintain the state of the observer. You are not DOING, you are OBSERVING.",
+            "Shift your focus to your lower abdomen.",
+            "For five minutes, observe the raw impulses and desires that originate there.",
+            "Do not act on or condemn any desire. Simply acknowledge any urge that arises, be it about food, or sex, or anything else, watching it rise and fade."
         ]
     }
 };
 
 const levelNames = {
-    1: "The Breath",
-    2: "Breath & Body",
-    3: "Material Existence"
+    1: "Thoughts",
+    2: "Emotions",
+    3: "Desires"
 };
 
 // ── Initialization ──
@@ -268,7 +265,8 @@ function selectLevel(level) {
     }, 500);
 
     resetTimerDisplay();
-    resetBreathing();
+    observerRing.classList.remove('active');
+    observerLabel.textContent = 'observe';
 }
 
 function buildInstructionSteps(level) {
@@ -337,7 +335,9 @@ function startSession() {
     pauseBtn.classList.remove('hidden');
     finishBtn.classList.remove('hidden');
 
-    startBreathing();
+    // Activate the observer visual
+    observerRing.classList.add('active');
+    observerLabel.textContent = 'observe';
 
     if (autoAdvance) {
         startStepAdvance();
@@ -376,15 +376,13 @@ function pauseSession() {
     if (!isRunning || isPaused) return;
 
     clearInterval(timerInterval);
-    clearTimeout(breathInterval);
     clearTimeout(stepAdvanceTimer);
     isPaused = true;
 
     pauseBtn.classList.add('hidden');
     resumeBtn.classList.remove('hidden');
 
-    breathRing.classList.remove('inhale', 'exhale', 'hold');
-    breathLabel.textContent = '';
+    observerRing.classList.remove('active');
 }
 
 function resumeSession() {
@@ -396,7 +394,7 @@ function resumeSession() {
     resumeBtn.classList.add('hidden');
     pauseBtn.classList.remove('hidden');
 
-    startBreathing();
+    observerRing.classList.add('active');
 
     if (autoAdvance && currentStepIndex < levelData[currentLevel].steps.length - 1) {
         startStepAdvance();
@@ -405,7 +403,6 @@ function resumeSession() {
 
 function finishSession() {
     clearInterval(timerInterval);
-    clearTimeout(breathInterval);
     clearTimeout(stepAdvanceTimer);
 
     saveSessionData();
@@ -414,7 +411,6 @@ function finishSession() {
 
 function exitSession() {
     clearInterval(timerInterval);
-    clearTimeout(breathInterval);
     clearTimeout(stepAdvanceTimer);
 
     if (document.fullscreenElement) {
@@ -441,52 +437,9 @@ function exitSession() {
     finishBtn.classList.add('hidden');
     overtimeIndicator.classList.add('hidden');
 
-    resetBreathing();
+    observerRing.classList.remove('active');
     resetTimerDisplay();
     updateCardStats();
-}
-
-// ── Breathing Animation: 6-6-6 (Inhale, Hold, Exhale) ──
-function startBreathing() {
-    clearTimeout(breathInterval);
-    breathPhase = 0;
-    doBreathCycle();
-}
-
-function doBreathCycle() {
-    breathRing.classList.remove('inhale', 'exhale', 'hold');
-
-    if (breathPhase === 0) {
-        // Inhale — 6 seconds
-        breathRing.classList.add('inhale');
-        breathLabel.textContent = 'breathe in';
-        breathInterval = setTimeout(() => {
-            breathPhase = 1;
-            doBreathCycle();
-        }, BREATH_IN);
-    } else if (breathPhase === 1) {
-        // Hold — 6 seconds
-        breathRing.classList.add('hold');
-        breathLabel.textContent = 'hold';
-        breathInterval = setTimeout(() => {
-            breathPhase = 2;
-            doBreathCycle();
-        }, BREATH_HOLD);
-    } else {
-        // Exhale — 6 seconds
-        breathRing.classList.add('exhale');
-        breathLabel.textContent = 'breathe out';
-        breathInterval = setTimeout(() => {
-            breathPhase = 0;
-            doBreathCycle();
-        }, BREATH_OUT);
-    }
-}
-
-function resetBreathing() {
-    clearTimeout(breathInterval);
-    breathRing.classList.remove('inhale', 'exhale', 'hold');
-    breathLabel.textContent = '';
 }
 
 // ── Step-by-Step Instructions ──
@@ -551,19 +504,19 @@ function resetTimerDisplay() {
 
 // ── Settings & Persistence ──
 function loadSettings() {
-    const savedDuration = localStorage.getItem('anchorDuration');
+    const savedDuration = localStorage.getItem('selfObsDuration');
     if (savedDuration) {
         sessionDuration = parseInt(savedDuration) * 60;
         durationInput.value = savedDuration;
     }
 
-    const savedSound = localStorage.getItem('anchorSound');
+    const savedSound = localStorage.getItem('selfObsSound');
     if (savedSound !== null) {
         soundEnabled = savedSound === 'true';
         soundToggle.checked = soundEnabled;
     }
 
-    const savedAutoAdvance = localStorage.getItem('anchorAutoAdvance');
+    const savedAutoAdvance = localStorage.getItem('selfObsAutoAdvance');
     if (savedAutoAdvance !== null) {
         autoAdvance = savedAutoAdvance === 'true';
         autoAdvanceToggle.checked = autoAdvance;
@@ -574,15 +527,15 @@ function saveSettings() {
     const newDuration = parseInt(durationInput.value);
     if (newDuration > 0) {
         sessionDuration = newDuration * 60;
-        localStorage.setItem('anchorDuration', newDuration);
+        localStorage.setItem('selfObsDuration', newDuration);
         if (!isRunning) resetTimerDisplay();
     }
 
     soundEnabled = soundToggle.checked;
-    localStorage.setItem('anchorSound', soundEnabled);
+    localStorage.setItem('selfObsSound', soundEnabled);
 
     autoAdvance = autoAdvanceToggle.checked;
-    localStorage.setItem('anchorAutoAdvance', autoAdvance);
+    localStorage.setItem('selfObsAutoAdvance', autoAdvance);
 }
 
 // ═══════════════════════════════════════════════
@@ -591,18 +544,16 @@ function saveSettings() {
 
 function saveSessionData() {
     const sessionTime = (sessionDuration - timeRemaining) + overtimeSeconds;
-    if (sessionTime < 10) return; // Skip accidental starts
+    if (sessionTime < 10) return;
 
     const data = getStoredData();
     const today = new Date().toISOString().split('T')[0];
     const now = new Date().toISOString();
 
-    // Global totals
     data.totalSessions++;
     data.totalTime += sessionTime;
     data.lastSessionDate = today;
 
-    // Per-level tracking
     if (!data.levels[currentLevel]) {
         data.levels[currentLevel] = { sessions: 0, time: 0, lastPracticed: null };
     }
@@ -617,7 +568,7 @@ function saveSessionData() {
         const diffDays = Math.floor((todayDate - lastDate) / (1000 * 60 * 60 * 24));
 
         if (diffDays === 0) {
-            // Same day — streak unchanged
+            // Same day
         } else if (diffDays === 1) {
             data.streak++;
         } else {
@@ -628,23 +579,21 @@ function saveSessionData() {
     }
     data.streakLastDate = today;
 
-    // Session history log
     if (!data.history) data.history = [];
     data.history.unshift({
         level: currentLevel,
         duration: sessionTime,
         date: now
     });
-    // Keep last 50 sessions
     if (data.history.length > 50) {
         data.history = data.history.slice(0, 50);
     }
 
-    localStorage.setItem('anchorData', JSON.stringify(data));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 }
 
 function getStoredData() {
-    const raw = localStorage.getItem('anchorData');
+    const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
         try {
             const data = JSON.parse(raw);
@@ -658,19 +607,6 @@ function getStoredData() {
             return createEmptyData();
         }
     }
-
-    // Migrate legacy data
-    const legacySessions = localStorage.getItem('anchorTotalSessions');
-    if (legacySessions) {
-        const migrated = createEmptyData();
-        migrated.totalSessions = parseInt(legacySessions) || 0;
-        migrated.totalTime = parseInt(localStorage.getItem('anchorTotalTime') || '0');
-        localStorage.removeItem('anchorTotalSessions');
-        localStorage.removeItem('anchorTotalTime');
-        localStorage.setItem('anchorData', JSON.stringify(migrated));
-        return migrated;
-    }
-
     return createEmptyData();
 }
 
@@ -687,19 +623,16 @@ function createEmptyData() {
 }
 
 function resetAllData() {
-    localStorage.removeItem('anchorData');
-    localStorage.removeItem('anchorTotalSessions');
-    localStorage.removeItem('anchorTotalTime');
+    localStorage.removeItem(STORAGE_KEY);
 }
 
 // ═══════════════════════════════════════════════
-// STATS DISPLAY — Comprehensive
+// STATS DISPLAY
 // ═══════════════════════════════════════════════
 
 function updateStatsDisplay() {
     const data = getStoredData();
 
-    // Check if streak is broken
     if (data.streakLastDate) {
         const lastDate = new Date(data.streakLastDate);
         const today = new Date();
@@ -709,7 +642,6 @@ function updateStatsDisplay() {
         }
     }
 
-    // Global stats
     $('total-sessions').textContent = data.totalSessions;
     $('total-time').textContent = formatDuration(data.totalTime);
     $('current-streak').textContent = data.streak;
@@ -725,7 +657,6 @@ function updateStatsDisplay() {
         $('last-session').textContent = '—';
     }
 
-    // Per-level stats
     for (let l = 1; l <= 3; l++) {
         const lvl = data.levels[l] || { sessions: 0, time: 0, lastPracticed: null };
         $(`level${l}-sessions`).textContent = lvl.sessions;
@@ -733,7 +664,6 @@ function updateStatsDisplay() {
         $(`level${l}-last`).textContent = lvl.lastPracticed ? formatDate(lvl.lastPracticed) : '—';
     }
 
-    // Session history
     renderSessionHistory(data.history || []);
 }
 
@@ -760,7 +690,6 @@ function renderSessionHistory(history) {
     }
 
     let html = '';
-    // Show last 15
     const items = history.slice(0, 15);
     items.forEach(entry => {
         const lvlName = levelNames[entry.level] || `Level ${entry.level}`;
@@ -790,19 +719,13 @@ function formatDateTime(isoStr) {
         const d = new Date(isoStr);
         const today = new Date().toISOString().split('T')[0];
         const dateStr = d.toISOString().split('T')[0];
-
         const time = d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
 
-        if (dateStr === today) {
-            return `Today ${time}`;
-        }
+        if (dateStr === today) return `Today ${time}`;
 
-        // Check yesterday
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
-        if (dateStr === yesterday.toISOString().split('T')[0]) {
-            return `Yesterday ${time}`;
-        }
+        if (dateStr === yesterday.toISOString().split('T')[0]) return `Yesterday ${time}`;
 
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + ` ${time}`;
     } catch {
@@ -817,9 +740,8 @@ function formatDateTime(isoStr) {
 function exportData() {
     const data = getStoredData();
 
-    // Add metadata
     const exportPayload = {
-        _app: 'AnchorMeditation',
+        _app: 'SelfObservationMeditation',
         _version: 1,
         _exportedAt: new Date().toISOString(),
         ...data
@@ -832,7 +754,7 @@ function exportData() {
     const a = document.createElement('a');
     a.href = url;
     const date = new Date().toISOString().split('T')[0];
-    a.download = `anchor-meditation-${date}.json`;
+    a.download = `self-observation-${date}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -850,25 +772,22 @@ function importData(e) {
         try {
             const imported = JSON.parse(evt.target.result);
 
-            // Validate it looks like our data
-            if (imported._app !== 'AnchorMeditation' && !imported.totalSessions && imported.totalSessions !== 0) {
+            if (imported._app !== 'SelfObservationMeditation' && !imported.totalSessions && imported.totalSessions !== 0) {
                 showToast('Invalid file format.');
                 return;
             }
 
-            // Clean metadata
             delete imported._app;
             delete imported._version;
             delete imported._exportedAt;
 
-            // Ensure structure
             if (!imported.levels) imported.levels = {};
             if (!imported.totalSessions) imported.totalSessions = 0;
             if (!imported.totalTime) imported.totalTime = 0;
             if (!imported.streak) imported.streak = 0;
             if (!imported.history) imported.history = [];
 
-            localStorage.setItem('anchorData', JSON.stringify(imported));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(imported));
 
             updateCardStats();
             showToast(`Imported: ${imported.totalSessions} sessions, ${formatDuration(imported.totalTime)} total.`);
@@ -878,14 +797,11 @@ function importData(e) {
     };
 
     reader.readAsText(file);
-
-    // Reset input so same file can be re-selected
     importFileInput.value = '';
 }
 
-// ── Toast Notification ──
+// ── Toast ──
 function showToast(message) {
-    // Remove existing toast
     const existing = document.querySelector('.toast');
     if (existing) existing.remove();
 

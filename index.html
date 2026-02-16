@@ -4,233 +4,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Hub</title>
+    <title>Laurentum's Archive</title>
+    <meta name="description"
+        content="A curated archive of tools, practices, and systems by Laurentum. Information from Temple of Zeus.">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@300;400&display=swap"
         rel="stylesheet">
 </head>
 
 <body>
+    <!-- Animated Egyptian Glyphs Background -->
+    <canvas id="glyphCanvas"></canvas>
+
+    <!-- Scanline overlay for hacker CRT effect -->
+    <div class="scanlines"></div>
+
     <div class="app-container">
         <header>
             <div class="logo-area">
-                <div class="logo-symbol">❖</div>
+                <div class="logo-symbol">
+                    <svg width="60" height="60" viewBox="0 0 60 60" fill="none">
+                        <polygon points="30,2 58,50 2,50" stroke="var(--accent-gold)" stroke-width="1.5" fill="none"
+                            opacity="0.8" />
+                        <circle cx="30" cy="28" r="6" stroke="var(--accent-gold)" stroke-width="1.5" fill="none" />
+                        <line x1="30" y1="22" x2="30" y2="8" stroke="var(--accent-gold)" stroke-width="1"
+                            opacity="0.5" />
+                    </svg>
+                </div>
                 <h1>LAURENTUM'S PROJECTS ARCHIVE</h1>
+                <div class="header-line"></div>
             </div>
-            <p class="subtitle">A curation of tools, practices, and systems for advancement.</p>
+            <p class="subtitle">A collection of tools, practices, and systems for advancement.</p>
+            <p class="source-tag">
+                <span class="tag-icon">𓂀</span>
+                Information from <strong>Temple of Zeus</strong>
+            </p>
         </header>
 
         <main>
-            <h2 class="section-title">Current Projects</h2>
-            <div class="project-grid">
-                <!-- Anchor Meditation -->
-                <a href="Anchor%20Meditation/index.html" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">⚓</span>
-                            <h3>Anchor Meditation</h3>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-glyph">𓊝</span>
+                    Current Projects
+                    <span class="section-line"></span>
+                </h2>
+                <div class="project-grid">
+                    <!-- Anchor Meditation -->
+                    <a href="Anchor%20Meditation/index.html" class="project-card" id="card-anchor">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">⚓</span>
+                                <h3>Anchor Meditation</h3>
+                            </div>
+                            <p>Re-inhabit your existence through breath and body awareness.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Active</span>
+                                <span class="link-arrow">→</span>
+                            </div>
                         </div>
-                        <p>Re-inhabit your existence through breath and body awareness.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Active</span>
-                            <span class="link-arrow">→</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
 
-                <!-- Dot Meditation -->
-                <a href="Dot-Practice-main/index.html" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">◎</span>
-                            <h3>Dot Meditation</h3>
+                    <!-- Self Observation -->
+                    <a href="Self%20Observation/index.html" class="project-card" id="card-selfobs">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">👁️‍🗨️</span>
+                                <h3>Self Observation</h3>
+                            </div>
+                            <p>Watch thoughts, emotions, and desires without attachment.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Active</span>
+                                <span class="link-arrow">→</span>
+                            </div>
                         </div>
-                        <p>Timeless focus training. Build attention capacity.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Active</span>
-                            <span class="link-arrow">→</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
 
-            <h2 class="section-title">Posts</h2>
-            <div class="project-grid">
-                <a href="https://ancient-forums.com/threads/chaos-and-order.304693/" target="_blank"
-                    class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">⚖️</span>
-                            <h3>Chaos and Order</h3>
+                    <!-- Dot Meditation -->
+                    <a href="Dot-Practice-main/index.html" class="project-card" id="card-dot">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">◎</span>
+                                <h3>Dot Meditation</h3>
+                            </div>
+                            <p>Timeless focus training. Build attention capacity.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Active</span>
+                                <span class="link-arrow">→</span>
+                            </div>
                         </div>
-                        <p>Understanding the balance.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Post</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+            </section>
 
-                <a href="https://ancient-forums.com/threads/starting-yoga-for-beginners.304914/post-1173669"
-                    target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">🧘‍♂️</span>
-                            <h3>Yoga for Men</h3>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-glyph">𓁿</span>
+                    Posts
+                    <span class="section-line"></span>
+                </h2>
+                <div class="project-grid">
+                    <a href="https://ancient-forums.com/threads/chaos-and-order.304693/" target="_blank"
+                        class="project-card" id="card-chaos">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">⚖️</span>
+                                <h3>Chaos and Order</h3>
+                            </div>
+                            <p>Understanding the balance.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Post</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Starting yoga for beginners.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Post</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
 
-                <a href="https://ancient-forums.com/threads/subliminal-messages-in-the-bible.305058/#post-1174458"
-                    target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">👁️</span>
-                            <h3>Subliminal Bible Messages</h3>
+                    <a href="https://ancient-forums.com/threads/starting-yoga-for-beginners.304914/post-1173669"
+                        target="_blank" class="project-card" id="card-yoga">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">🧘‍♂️</span>
+                                <h3>Yoga for Men</h3>
+                            </div>
+                            <p>Starting yoga for beginners.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Post</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Analysis of hidden messages.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Post</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
 
-            <h2 class="section-title">Applications</h2>
-            <div class="project-grid">
-                <a href="https://ancient-forums.com/threads/arcana-flow-your-routine-assistant.305164/" target="_blank"
-                    class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">🔮</span>
-                            <h3>Arcana Flow</h3>
+                    <a href="https://ancient-forums.com/threads/subliminal-messages-in-the-bible.305058/#post-1174458"
+                        target="_blank" class="project-card" id="card-bible">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">👁️</span>
+                                <h3>Subliminal Bible Messages</h3>
+                            </div>
+                            <p>Analysis of hidden messages.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Post</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Your routine assistant.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">App</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+            </section>
 
-                <a href="https://ancient-forums.com/threads/infinity-flow-pocket-meditation-assistant-android-application.305205/"
-                    target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">♾️</span>
-                            <h3>Infinity Flow</h3>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-glyph">𓋹</span>
+                    Applications
+                    <span class="section-line"></span>
+                </h2>
+                <div class="project-grid">
+                    <a href="https://ancient-forums.com/threads/arcana-flow-your-routine-assistant.305164/"
+                        target="_blank" class="project-card" id="card-arcana">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">🔮</span>
+                                <h3>Arcana Flow</h3>
+                            </div>
+                            <p>Your routine assistant.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">App</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Pocket meditation assistant.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">App</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
 
-            <h2 class="section-title">Resources</h2>
-            <div class="project-grid">
-                <a href="https://ancient-forums.com/threads/the-beginner-meditation-guide-in-spiritual-satanism.290620/"
-                    target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">📖</span>
-                            <h3>Meditation Guide</h3>
+                    <a href="https://ancient-forums.com/threads/infinity-flow-pocket-meditation-assistant-android-application.305205/"
+                        target="_blank" class="project-card" id="card-infinity">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">♾️</span>
+                                <h3>Infinity Flow</h3>
+                            </div>
+                            <p>Pocket meditation assistant.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">App</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>The beginner meditation guide.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Resource</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+            </section>
 
-                <a href="https://ancient-forums.com/threads/yoga-routines.295372/#post-1108769" target="_blank"
-                    class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">🧘‍♀️</span>
-                            <h3>Yoga Sequences</h3>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-glyph">𓏛</span>
+                    Resources
+                    <span class="section-line"></span>
+                </h2>
+                <div class="project-grid">
+                    <a href="https://ancient-forums.com/threads/the-beginner-meditation-guide-in-spiritual-satanism.290620/"
+                        target="_blank" class="project-card" id="card-medguide">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">📖</span>
+                                <h3>Meditation Guide</h3>
+                            </div>
+                            <p>The beginner meditation guide.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Resource</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Comprehensive yoga routines.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Resource</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
 
-                <a href="https://ancient-forums.com/threads/ss-pranayama-cheatsheet-breathing-exercises.292766/"
-                    target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">💨</span>
-                            <h3>Pranayama Cheatsheet</h3>
+                    <a href="https://ancient-forums.com/threads/yoga-routines.295372/#post-1108769" target="_blank"
+                        class="project-card" id="card-yogaseq">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">🧘‍♀️</span>
+                                <h3>Yoga Sequences</h3>
+                            </div>
+                            <p>Comprehensive yoga routines.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Resource</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Breathing exercises guide.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Resource</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
 
-            <h2 class="section-title">Older Resources</h2>
-            <div class="project-grid">
-                <a href="https://roadmap.sh/r?id=65d613bd66cd6d03d2c365fa" target="_blank" class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">🗺️</span>
-                            <h3>Path Roadmap</h3>
+                    <a href="https://ancient-forums.com/threads/ss-pranayama-cheatsheet-breathing-exercises.292766/"
+                        target="_blank" class="project-card" id="card-pranayama">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">💨</span>
+                                <h3>Pranayama Cheatsheet</h3>
+                            </div>
+                            <p>Breathing exercises guide.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Resource</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Personal roadmap architecture.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Archive</span>
-                            <span class="link-arrow">↗</span>
-                        </div>
-                    </div>
-                </a>
+                    </a>
+                </div>
+            </section>
 
-                <a href="https://ancient-forums.com/threads/outreach-images.294282/" target="_blank"
-                    class="project-card">
-                    <div class="card-content">
-                        <div class="card-header">
-                            <span class="card-icon">🖼️</span>
-                            <h3>Outreach Images</h3>
+            <section>
+                <h2 class="section-title">
+                    <span class="section-glyph">𓃭</span>
+                    Older Resources
+                    <span class="section-line"></span>
+                </h2>
+                <div class="project-grid">
+                    <a href="https://roadmap.sh/r?id=65d613bd66cd6d03d2c365fa" target="_blank" class="project-card"
+                        id="card-roadmap">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">🗺️</span>
+                                <h3>Path Roadmap</h3>
+                            </div>
+                            <p>Personal roadmap architecture.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Archive</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                        <p>Collection of outreach materials.</p>
-                        <div class="card-footer">
-                            <span class="status-tag">Archive</span>
-                            <span class="link-arrow">↗</span>
+                    </a>
+
+                    <a href="https://ancient-forums.com/threads/outreach-images.294282/" target="_blank"
+                        class="project-card" id="card-outreach">
+                        <div class="card-glow"></div>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-icon">🖼️</span>
+                                <h3>Outreach Images</h3>
+                            </div>
+                            <p>Collection of outreach materials.</p>
+                            <div class="card-footer">
+                                <span class="status-tag">Archive</span>
+                                <span class="link-arrow">↗</span>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            </div>
+                    </a>
+                </div>
+            </section>
         </main>
 
         <footer>
             <div class="footer-content">
-                <p>Member of <strong>Temple of Zeus</strong></p>
+                <p>Information from <strong>Temple of Zeus</strong></p>
                 <div class="footer-links">
                     <a href="https://templeofzeus.org" target="_blank" class="footer-link">Source</a>
-                    <span class="separator">•</span>
-                    <a href="https://ancient-forums.com/members/laurentum.73169/" target="_blank" class="footer-link">My
-                        Forum Profile</a>
+                    <span class="separator">𓏭</span>
+                    <a href="https://ancient-forums.com/members/laurentum.73169/" target="_blank"
+                        class="footer-link">Forum Profile</a>
                 </div>
+                <div class="footer-glyphs">𓂋 𓁹 𓊝 𓋹 𓂀</div>
             </div>
         </footer>
     </div>
-</body>
 
+    <script>
+        // ── Egyptian Glyphs Rain (Matrix-style but with hieroglyphs) ──
+        const canvas = document.getElementById('glyphCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Egyptian hieroglyphs and mystical symbols
+        const glyphs = '𓀀𓀁𓀂𓀃𓀄𓀅𓀆𓀇𓀈𓀉𓀊𓀋𓀌𓀍𓀎𓁀𓁁𓁂𓁃𓁄𓁅𓁆𓁇𓁈𓁉𓁊𓁋𓁌𓁍𓁎𓁏𓁐𓁑𓁒𓁓𓁔𓁕𓁖𓁗𓁘𓁙𓁚𓁛𓁜𓁝𓁞𓁟𓁠𓁡𓁢𓁣𓁤𓁥𓁦𓁧𓁨𓁩𓁪𓁫𓁬𓁭𓁮𓁯𓁰𓁱𓁲𓁳𓁴𓁵𓁶𓁷𓁸𓁹𓁺𓁻𓁼𓁽𓁾𓁿𓂀𓂁𓂂𓂃𓂄𓂅𓂆𓂇𓂈𓂉𓂊𓂋𓂌𓂍𓂎𓂏𓂐𓂑𓂒𓂓𓂔𓂕𓂖𓂗𓂘𓂙𓂚𓃀𓃁𓃂𓃃𓃄𓃅𓃆𓃇𓃈𓃉𓃊𓃋𓃌𓃍𓃎𓃏𓃐𓃑𓃒𓃓𓃔𓃕𓃖𓃗𓃘𓃙𓃚𓃛𓃜𓃝𓃞𓃟𓃠𓃡𓃢𓃣𓃤𓃥𓃦𓃧𓃨𓃩𓃪𓃫𓃬𓃭𓃮𓃯𓃰𓃱𓃲𓃳𓃴𓃵𓃶𓃷𓃸𓃹𓃺𓃻𓃼𓃽𓃾𓃿𓄀𓄁𓄂𓄃𓄄𓊝𓊞𓊟𓊠𓊡𓊢𓊣𓋀𓋁𓋂𓋃𓋄𓋅𓋆𓋇𓋈𓋉𓋊𓋋𓋌𓋍𓋎𓋏𓋐𓋑𓋒𓋓𓋔𓋕𓋖𓋗𓋘𓋙𓋚𓋛𓋜𓋝𓋞𓋟𓋠𓋡𓋢𓋣𓋤𓋥𓋦𓋧𓋨𓋩𓋪𓋫𓋬𓋭𓋮𓋯𓋰𓋱𓋲𓋳𓋴𓋵𓋶𓋷𓋸𓋹';
+        const glyphArray = [...glyphs];
+
+        let columns;
+        let drops;
+        const fontSize = 18;
+
+        function initCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            columns = Math.floor(canvas.width / fontSize);
+            drops = Array(columns).fill(1).map(() => Math.random() * -100);
+        }
+
+        initCanvas();
+        window.addEventListener('resize', initCanvas);
+
+        function drawGlyphs() {
+            // Semi-transparent black to create trail effect
+            ctx.fillStyle = 'rgba(5, 5, 8, 0.06)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < drops.length; i++) {
+                const glyph = glyphArray[Math.floor(Math.random() * glyphArray.length)];
+                const x = i * fontSize;
+                const y = drops[i] * fontSize;
+
+                // Varying gold opacity for depth
+                const brightness = Math.random();
+                if (brightness > 0.97) {
+                    // Bright flash — the "lead" glyph
+                    ctx.fillStyle = 'rgba(212, 175, 55, 0.9)';
+                    ctx.shadowColor = 'rgba(212, 175, 55, 0.6)';
+                    ctx.shadowBlur = 15;
+                } else if (brightness > 0.8) {
+                    ctx.fillStyle = 'rgba(212, 175, 55, 0.25)';
+                    ctx.shadowBlur = 0;
+                } else {
+                    ctx.fillStyle = 'rgba(212, 175, 55, 0.08)';
+                    ctx.shadowBlur = 0;
+                }
+
+                ctx.font = `${fontSize}px serif`;
+                ctx.fillText(glyph, x, y);
+                ctx.shadowBlur = 0;
+
+                // Reset drop to top with randomness
+                if (y > canvas.height && Math.random() > 0.985) {
+                    drops[i] = 0;
+                }
+                drops[i] += 0.3 + Math.random() * 0.3;
+            }
+        }
+
+        setInterval(drawGlyphs, 55);
+
+        // ── Staggered card entrance animation ──
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 80);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // ── Mouse glow effect on cards ──
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body>
 
 </html>
